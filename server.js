@@ -28,8 +28,10 @@ app.get("/", async (req, res) => {
 });
 
 // GET '/fruits'
-app.get('/fruits', (req, res) => {
-  res.send('Welcome to the index page')
+app.get('/fruits', async (req, res) => {
+  const allFruits = await Fruit.find()
+  console.log(allFruits)
+  res.render('fruits/index.ejs', { fruits: allFruits })
 })
 
 
@@ -45,9 +47,10 @@ app.post('/fruits', async (req, res) => {
   } else {
     req.body.isReadyToEat = false
   }
-  res.redirect("/fruits/new");
+  res.redirect("/fruits");
+
   await Fruit.create(req.body);
-})
+});
 
 
 app.listen(3000, () => {
